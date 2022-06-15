@@ -15,14 +15,18 @@ desc playlist;
 create table tracks(track_id int primary key,
 track_name varchar(50),
 track_desc varchar(50),
-useer_id int,
-foreign key(useer_id) references users(useer_id));
+playlist_id int,
+foreign key(playlist_id) references playlist(playlist_id));
 desc tracks;
 
+alter table tracks
+change useer_id
+playlist_id int;
+drop table tracks;
 
 insert into users values(1,'mohit','mohit@gmail.com'),(2,'monu','monu@gmail.com');
 insert into playlist values(100,'play1','desc1',1),(200,'play2','desc2',2);
-insert into tracks values(1000,'track1','des1',1),(2000,'track2','des2',2);
+insert into tracks values(1000,'track1','des1',100),(2000,'track2','des2',200);
 
 select * from playlist;
 
@@ -107,12 +111,6 @@ GROUP BY Name;
  SELECT SUM(year) AS "Total year" FROM Customer;  
 
 
-
-
-
-
-
-
 select * from users
 join playlist on 
 users.useer_id = playlist.useer_id;
@@ -125,8 +123,17 @@ users.useer_id = tracks.useer_id;
 
 
 
-select users.user_name,playlist.playlist_name from users
+select users.useer_id,playlist.playlist_id from users
 join playlist on 
 users.useer_id = playlist.useer_id;
 
+select users.useer_id,tracks.track_id from users
+join tracks on 
+users.useer_id = tracks.playlist_id;
+
+SELECT users.useer_id,playlist.playlist_id,tracks.playlist_id
+  FROM users 
+  JOIN playlist ON users.useer_id = playlist.useer_id
+  JOIN tracks ON playlist.playlist_id= tracks.playlist_id;
+ 
 
